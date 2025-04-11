@@ -69,6 +69,27 @@ int minimax(char board[3][3], bool ismaximizing) {
     } 
 }
 
+void minimax_best_move(char board[3][3]) {
+    int best_row{-1}, best_column{-1};
+    int best_score{-1748};
+    for(int i = 0; i < 3; i++) {
+        for(int j = 0; j < 3; j++) {
+            if(board[i][j] == ' ') {
+                board[i][j] = 'X';
+                int score{minimax(board, false)};
+                board[i][j] = ' ';
+                if(score > best_score) {
+                    best_score = score;
+                    
+                }
+            }
+        }
+    }
+    if(best_row != -1 && best_column != -1) {
+        board[best_row][best_column] = 'X';
+    }
+}
+
 int main() {
     char board[3][3] = {
     { ' ', ' ', ' ' },
