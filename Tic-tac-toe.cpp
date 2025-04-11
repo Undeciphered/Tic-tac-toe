@@ -61,7 +61,7 @@ int minimax(char board[3][3], bool ismaximizing) {
                     board[i][j] = 'O';
                     int score{minimax(board, true)};
                     board[i][j] = ' ';
-                    best_score = std::max(best_score, score);
+                    best_score = std::min(best_score, score);
                 }
             }
         }
