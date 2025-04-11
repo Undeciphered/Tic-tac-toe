@@ -80,7 +80,8 @@ void minimax_best_move(char board[3][3]) {
                 board[i][j] = ' ';
                 if(score > best_score) {
                     best_score = score;
-                    
+                    best_row = i;
+                    best_column = j;
                 }
             }
         }
