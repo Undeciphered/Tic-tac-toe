@@ -34,6 +34,41 @@ bool is_draw(char board[3][3]) {
     }
 }
 
+int minimax(char board[3][3], bool ismaximizing) {
+    char winner = check_winner(board);
+    if(winner == 'X') {return +1;}
+    if(winner == 'O') {return -1;}
+    if(is_draw(board)) {return 0;}
+    
+    if(ismaximizing) {
+        int best_score{-1748};
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                if(board[i][j] == ' ') {
+                    board[i][j] = 'X';
+                    int score{minimax(board, false)};
+                    board[i][j] = ' ';
+                    best_score = std::max(best_score, score);
+                }
+            }
+        }
+        return best_score;
+    } else {
+        int best_score{1748};
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                if(board[i][j] == ' ') {
+                    board[i][j] = 'O';
+                    int score{minimax(board, true)};
+                    board[i][j] = ' ';
+                    best_score = std::max(best_score, score);
+                }
+            }
+        }
+        return best_score;  
+    } 
+}
+
 int main() {
     char board[3][3] = {
     { ' ', ' ', ' ' },
