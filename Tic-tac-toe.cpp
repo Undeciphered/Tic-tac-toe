@@ -21,13 +21,17 @@ char check_winner(char board[3][3]) {
 
 bool is_draw(char board[3][3]) {
     for(int i = 0; i < 3; i++) {
-        for(int j = 0; i < 3; i++) {
+        for(int j = 0; i < 3; j++) {
             if(board[i][j] == ' ') {
-                return false ;  
+                return false;  
             }
         }
     }
-    return true;
+    if(check_winner(board) == ' ') {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 int main() {
