@@ -1,12 +1,15 @@
 #include <iostream>
 #include <array>
+#include <random>
 
 class tic_tac_toe {
     private:
         char board[3][3];
+        std::random_device rd;
+        std::mt19937 g;
         
     public:
-        tic_tac_toe() {
+        tic_tac_toe() : g(rd()) {
             for(auto& row : board) {
                 for(char& cell : row) {
                     cell = ' ';
@@ -103,6 +106,19 @@ class tic_tac_toe {
             if(best_row != -1 && best_column != -1) {
                 board[best_row][best_column] = 'X';
             }
+        }
+
+        void random_move() {
+            std::vector<char*> valid_cells;
+            for(auto& row : board) {
+                for(char& cell : row) {
+                    if(cell == ' ') {
+                        valid_cells.push_back(&cell);
+                    }
+                }
+            }
+            std::uniform_int_distribution<int> random(0, static_cast<int>(valid_cells.size()-1));
+            *valid_cells[random(g)] = 'X';
         }
         
         void print_board() {
