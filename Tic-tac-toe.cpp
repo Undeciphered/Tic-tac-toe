@@ -188,9 +188,14 @@ class tic_tac_toe {
         
         void player_turn(char player) {
             int row{0}, column{0};
-            std::cin >> row >> column;
-            std::cout << '\n';
-            board[row][column] = player;
+            while(true) {
+                std::cin >> row >> column;
+                std::cout << '\n';
+                if(board[row][column] == ' ') {
+                    board[row][column] = player;
+                    return;
+                }
+            }
         }
         
         void print_board() {
