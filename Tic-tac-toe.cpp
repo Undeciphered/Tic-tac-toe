@@ -220,6 +220,8 @@ class tic_tac_toe {
             std::cin >> choice;
             while(true) {
                 print_board();
+                if(check_winner() == 'X') {std::cout << "X wins!"; return;}
+                if(is_draw()) {std::cout << "its a draw!"; return;}
                 player_turn('O');
                 print_board();
                 if(check_winner() == 'O') {std::cout << "O wins!"; return;}
@@ -228,8 +230,6 @@ class tic_tac_toe {
                 else if(choice == 2) {educated_move();}
                 else if(choice == 3) {random_move();}
                 else if(choice == 4) {player_turn('X');}
-                if(check_winner() == 'X') {std::cout << "X wins!"; return;}
-                if(is_draw()) {std::cout << "its a draw!"; return;}
             }
         }
 };
