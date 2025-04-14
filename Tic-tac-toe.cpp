@@ -121,31 +121,111 @@ class tic_tac_toe {
             *valid_cells[random(g)] = 'X';
         }
         
-        void print_board() {
+        bool take_or_win(char to_complete) {
             for(int i = 0; i < 3; i++) {
+                if(((board[0][i] == to_complete) + (board[1][i] == to_complete) + (board[2][i] == to_complete)) == 2) {
+                    for(int j = 0; j < 3; j++) {
+                        if(board[j][i] == ' ') {
+                            board[j][i] = 'X';
+                            return true;
+                        }
+                    }
+                }
+                if(((board[i][0] == to_complete) + (board[i][1] == to_complete) + (board[i][2] == to_complete)) == 2) {
+                    for(int j = 0; j < 3; j++) {
+                        if(board[i][j] == ' ') {
+                            board[i][j] = 'X';
+                            return true;
+                        }
+                    }
+                }  
+            }
+            if(((board[0][0] == to_complete) + (board[1][1] == to_complete) + (board[2][2] == to_complete)) == 2) {
+                for(int i = 0, j = 0; i < 3; i++,j++) {
+                    if(board[i][j] == ' ') {
+                        board[i][j] = 'X';
+                        return true;
+                    }
+                }
+            }
+            if(((board[0][2] == to_complete) + (board[1][1] == to_complete) + (board[2][0] == to_complete)) == 2) {
+                for(int i = 0, j = 2; i < 3; i++,j--) {
+                    if(board[i][j] == ' ') {
+                        board[i][j] = 'X';
+                        return true;
+                    }
+                }
+            } 
+            return false;
+        }
+        
+        void educated_move() {
+            if(take_or_win('X')) {return;}
+            if(take_or_win('O')) {return;}
+            if(board[1][1] == ' ') {
+                board[1][1] = 'X';
+                return;
+            }
+            std::uniform_int_distribution<int> random(0, 3);
+            std::vector<std::pair<int, int>> corners = {{0,0}, {0,2}, {2,2}, {2,0}};
+            while(true) {
+                int temp{random(g)};
+                if(board[corners[temp].first][corners[temp].second] == ' ') {
+                    board[corners[temp].first][corners[temp].second] = 'X';
+                    return;
+                }
+            }
+            std::vector<std::pair<int, int>> edges = {{0,1}, {1,2}, {2,1}, {1,0}};
+            while(true) {
+                int temp{random(g)};
+                if(board[corners[temp].first][corners[temp].second] == ' ') {
+                    board[corners[temp].first][corners[temp].second] = 'X';
+                    return;
+                }
+            }
+            
+        }
+        
+        void player_turn(char player) {
+            int row{0}, column{0};
+            std::cin >> row >> column;
+            std::cout << '\n';
+            board[row][column] = player;
+        }
+        
+        void print_board() {
+            bool first_row{true};
+            for(int i = 0; i < 3; i++) {
+                if(!first_row) {std::cout << "-----\n";}
+                bool first{true};
                 for(int j = 0; j < 3; j++) {
-                   std::cout << board[i][j] << ' ';
+                    if(!first) {std::cout << '|';}
+                    std::cout << board[i][j];
+                    first = false;
                 }        
                 std::cout << '\n';
+                first_row = false;
             }
+            std::cout << '\n';
         }
                 
         void start() {
+            int choice{0};
+            std::cout << "1.ai-imposible\n2.ai-medium\n3.ai-random\n4.player\nchose your oponent: "; 
+            std::cin >> choice;
             while(true) {
-                int row{0}, column{0};
-                minimax_best_move();
                 print_board();
-                if(check_winner() == 'X') {
-                std::cout << "X won";
-                break;
-                } else if(is_draw()) {
-                    std::cout << "its a tie";
-                    break;
-                }
-                std::cin >> row >> column;
-                std::cout << '\n';
-                board[row][column] = 'O';
-            }       
+                player_turn('O');
+                print_board();
+                if(check_winner() == 'O') {std::cout << "O wins!"; return;}
+                if(is_draw()) {std::cout << "its a draw!"; return;}
+                if(choice == 1) {minimax_best_move();}
+                else if(choice == 2) {educated_move();}
+                else if(choice == 3) {random_move();}
+                else if(choice == 4) {player_turn('X');}
+                if(check_winner() == 'X') {std::cout << "X wins!"; return;}
+                if(is_draw()) {std::cout << "its a draw!"; return;}
+            }
         }
 };
 
