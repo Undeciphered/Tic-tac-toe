@@ -48,7 +48,6 @@ class tic_tac_toe {
             } else {
                 return false;
             }
-            return true;
         }
         
         int minimax(bool ismaximizing) {
