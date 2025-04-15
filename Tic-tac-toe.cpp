@@ -1,6 +1,6 @@
 #include <iostream>
-#include <array>
 #include <random>
+#include <algorithm>
 
 class tic_tac_toe {
     private:
@@ -186,15 +186,22 @@ class tic_tac_toe {
         }
         
         void player_turn(char player) {
+            std::string input_one{""}, input_two{""};
             int row{0}, column{0};
             while(true) {
-                std::cin >> row >> column;
-                std::cout << '\n';
-                if(board[row][column] == ' ') {
-                    board[row][column] = player;
-                    return;
+                std::cin >> input_one >> input_two;
+                if(std::all_of(input_one.begin(), input_one.end(), ::isdigit) && std::all_of(input_two.begin(), input_two.end(), ::isdigit)) {
+                    row = stoi(input_one);
+                    column = stoi(input_two);
+                    if(row < 3 && row > -1 && column < 3 && column > -1) {
+                        if(board[row][column] == ' ') {
+                            board[row][column] = player;
+                            break;
+                        }
+                    }
                 }
             }
+            std::cout << '\n';
         }
         
         void print_board() {
@@ -214,9 +221,18 @@ class tic_tac_toe {
         }
                 
         void start() {
+            std::string input{""};
             int choice{0};
-            std::cout << "1.ai-imposible\n2.ai-medium\n3.ai-random\n4.player\nchose your oponent: "; 
-            std::cin >> choice;
+            std::cout << "1.ai-imposible\n2.ai-medium\n3.ai-random\n4.player\nchose your oponent: ";
+            while(true) {
+                std::cin >> input;
+                if(std::all_of(input.begin(), input.end(), ::isdigit)) {
+                    choice = stoi(input);
+                    if(choice < 5 && choice > 0) {
+                        break;
+                    }
+                }
+            }
             while(true) {
                 print_board();
                 if(check_winner() == 'X') {std::cout << "X wins!"; return;}
