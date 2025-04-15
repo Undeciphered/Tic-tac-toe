@@ -177,8 +177,8 @@ class tic_tac_toe {
             std::vector<std::pair<int, int>> edges = {{0,1}, {1,2}, {2,1}, {1,0}};
             while(true) {
                 int temp{random(g)};
-                if(board[corners[temp].first][corners[temp].second] == ' ') {
-                    board[corners[temp].first][corners[temp].second] = 'X';
+                if(board[edges[temp].first][edges[temp].second] == ' ') {
+                    board[edges[temp].first][edges[temp].second] = 'X';
                     return;
                 }
             }
