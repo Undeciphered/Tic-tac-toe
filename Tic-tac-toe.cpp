@@ -86,6 +86,9 @@ class tic_tac_toe {
         }
         
         void minimax_best_move() {
+            if(take_or_win('X') == true) {
+                return;
+            }
             int best_row{-1}, best_column{-1};
             int best_score{-1748};
             for(int i = 0; i < 3; i++) {
@@ -235,12 +238,12 @@ class tic_tac_toe {
             }
             while(true) {
                 print_board();
-                if(check_winner() == 'X') {std::cout << "X wins!"; return;}
-                if(is_draw()) {std::cout << "its a draw!"; return;}
+                if(check_winner() == 'X') {std::cout << "X wins!\n"; return;}
+                if(is_draw()) {std::cout << "its a draw!\n"; return;}
                 player_turn('O');
                 print_board();
-                if(check_winner() == 'O') {std::cout << "O wins!"; return;}
-                if(is_draw()) {std::cout << "its a draw!"; return;}
+                if(check_winner() == 'O') {std::cout << "O wins!\n"; return;}
+                if(is_draw()) {std::cout << "its a draw!\n"; return;}
                 if(choice == 1) {minimax_best_move();}
                 else if(choice == 2) {educated_move();}
                 else if(choice == 3) {random_move();}
